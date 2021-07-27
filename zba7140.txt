@@ -1,0 +1,198 @@
+blueprint:
+  name: Logic Group Matrix ZBA7140
+  description: Create automatisation for the ZBA7140 using zwavejs integration
+  domain: automation
+  input:
+    matrix_zba7140:
+      name: Matrix ZBA7140
+      description: The matrix to interact with
+      selector:
+        device:
+          integration: zwave_js
+          manufacturer: Logic Group
+          model: ZBA7140
+    button_top_left_tap:
+      name: Tap Button 1 - Top left
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_top_right_tap:
+      name: Tap Button 2 - Top Right
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_lower_left_tap:
+      name: Tap Button 3 - Lower Left
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_lower_right_tap:
+      name: Tap Button 4 - Lower Right
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_top_left_2xtap:
+      name: Double Tap Button 1 - Top left
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_top_right_2xtap:
+      name: Double Tap Button 2 - Top Right
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_lower_left_2xtap:
+      name: Double Tap Button 3 - Lower Left
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_lower_right_2xtap:
+      name: Double Tap Button 4 - Lower Right
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_top_left_3xtap:
+      name: Triple Tap Button 1 - Top left
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_top_right_3xtap:
+      name: Triple Tap Button 2 - Top Right
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_lower_left_3xtap:
+      name: Triple Tap Button 3 - Lower Left
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_lower_right_3xtap:
+      name: Triple Tap Button 4 - Lower Right
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_top_left_release:
+      name: Release Button 1 - Top left
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_top_right_release:
+      name: Release Button 2 - Top Right
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_lower_left_release:
+      name: Release Button 3 - Lower Left
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_lower_right_release:
+      name: Release Button 4 - Lower Right
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_top_left_hold:
+      name: Hold Button 1 - Top left
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_top_right_hold:
+      name: Hold Button 2 - Top Right
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_lower_left_hold:
+      name: Hold Button 3 - Lower Left
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+    button_lower_right_hold:
+      name: Hold Button 4 - Lower Right
+      description: Action to run on button press.
+      default: []
+      selector:
+        action: {}
+  source_url: https://community.home-assistant.io/t/zwavejs-logic-group-zba7140-matrix-switch-with-dimmer-and-backlight/287594
+mode: single
+max_exceeded: silent
+trigger:
+- platform: event
+  event_type: zwave_js_value_notification
+  event_data:
+    device_id: !input 'matrix_zba7140'
+    command_class_name: Central Scene
+- platform: event
+  event_type: zwave_js_event
+  event_data:
+    device_id: !input 'matrix_zba7140'
+    command_class_name: Central Scene
+action:
+- variables:
+    button_id: '{{ trigger.event.data.property_key_name }}'
+    button_action: '{{ trigger.event.data.value }}'
+- choose:
+  - conditions: '{{ button_id == ''001'' and button_action == ''KeyPressed'' }}'
+    sequence: !input 'button_top_left_tap'
+  - conditions: '{{ button_id == ''002'' and button_action == ''KeyPressed'' }}'
+    sequence: !input 'button_top_right_tap'
+  - conditions: '{{ button_id == ''003'' and button_action == ''KeyPressed'' }}'
+    sequence: !input 'button_lower_left_tap'
+  - conditions: '{{ button_id == ''004'' and button_action == ''KeyPressed'' }}'
+    sequence: !input 'button_lower_right_tap'
+  - conditions: '{{ button_id == ''001'' and button_action == ''KeyPressed2x'' }}'
+    sequence: !input 'button_top_left_2xtap'
+  - conditions: '{{ button_id == ''002'' and button_action == ''KeyPressed2x'' }}'
+    sequence: !input 'button_top_right_2xtap'
+  - conditions: '{{ button_id == ''003'' and button_action == ''KeyPressed2x'' }}'
+    sequence: !input 'button_lower_left_2xtap'
+  - conditions: '{{ button_id == ''004'' and button_action == ''KeyPressed2x'' }}'
+    sequence: !input 'button_lower_right_2xtap'
+  - conditions: '{{ button_id == ''001'' and button_action == ''KeyPressed3x'' }}'
+    sequence: !input 'button_top_left_3xtap'
+  - conditions: '{{ button_id == ''002'' and button_action == ''KeyPressed3x'' }}'
+    sequence: !input 'button_top_right_3xtap'
+  - conditions: '{{ button_id == ''003'' and button_action == ''KeyPressed3x'' }}'
+    sequence: !input 'button_lower_left_3xtap'
+  - conditions: '{{ button_id == ''004'' and button_action == ''KeyPressed3x'' }}'
+    sequence: !input 'button_lower_right_3xtap'
+  - conditions: '{{ button_id == ''001'' and button_action == ''KeyHeldDown'' }}'
+    sequence: !input 'button_top_left_hold'
+  - conditions: '{{ button_id == ''002'' and button_action == ''KeyHeldDown'' }}'
+    sequence: !input 'button_top_right_hold'
+  - conditions: '{{ button_id == ''003'' and button_action == ''KeyHeldDown'' }}'
+    sequence: !input 'button_lower_left_hold'
+  - conditions: '{{ button_id == ''004'' and button_action == ''KeyHeldDown'' }}'
+    sequence: !input 'button_lower_right_hold'
+  - conditions: '{{ button_id == ''001'' and button_action == ''KeyReleased'' }}'
+    sequence: !input 'button_top_left_release'
+  - conditions: '{{ button_id == ''002'' and button_action == ''KeyReleased'' }}'
+    sequence: !input 'button_top_right_release'
+  - conditions: '{{ button_id == ''003'' and button_action == ''KeyReleased'' }}'
+    sequence: !input 'button_lower_left_release'
+  - conditions: '{{ button_id == ''004'' and button_action == ''KeyReleased'' }}'
+    sequence: !input 'button_lower_right_release'
+  default:
+  - service: system_log.write
+    data:
+      level: warning
+      message: Activated button '{{ button_id }}' with action ({{ button_action }})
+        for node '{{ matrix_zba7140 }}'
