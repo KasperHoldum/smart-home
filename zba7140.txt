@@ -131,7 +131,7 @@ blueprint:
       default: []
       selector:
         action: {}
-  source_url: https://community.home-assistant.io/t/zwavejs-logic-group-zba7140-matrix-switch-with-dimmer-and-backlight/287594
+  source_url: https://github.com/KasperHoldum/smart-home/blob/master/zba7140.txt
 mode: single
 max_exceeded: silent
 trigger:
